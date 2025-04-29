@@ -1,4 +1,5 @@
 import { gql } from 'graphql-tag'
+import { makeExecutableSchema } from '@graphql-tools/schema'
 
 export const resolvers = {
   Query: {
@@ -11,3 +12,5 @@ export const typeDefs = gql`
     hello: String
   }
 `
+
+export const schema = makeExecutableSchema({ typeDefs, resolvers })
