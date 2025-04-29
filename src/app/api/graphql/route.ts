@@ -1,12 +1,9 @@
 import { ApolloServer } from '@apollo/server'
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
 import { NextRequest } from 'next/server'
-import { resolvers, typeDefs } from '@/gql/schema'
+import { schema } from '@/gql/server/schema'
 
-const server = new ApolloServer({
-  resolvers,
-  typeDefs,
-})
+const server = new ApolloServer({ schema })
 
 const apolloHandler = startServerAndCreateNextHandler<NextRequest>(server, {
   context: async (req) => ({ req }),
