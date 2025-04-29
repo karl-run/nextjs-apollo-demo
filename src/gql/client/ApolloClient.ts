@@ -1,7 +1,7 @@
-import { HttpLink, ApolloClient, from, NormalizedCacheObject } from '@apollo/client'
+import { ApolloClient, InMemoryCache } from '@apollo/client-integration-nextjs'
 import { RetryLink } from '@apollo/client/link/retry'
-import { InMemoryCache } from '@apollo/client-integration-nextjs'
 import { onError } from '@apollo/client/link/error'
+import { from, HttpLink } from '@apollo/client'
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -14,7 +14,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 })
 
-export function createApolloClient(): ApolloClient<NormalizedCacheObject> {
+export function makeApolloClient() {
   return new ApolloClient({
     cache: new InMemoryCache(),
     link: from([
