@@ -1,0 +1,36 @@
+fragment Speed on SpeedEntry {
+  when
+  value
+}
+
+query BigNasty {
+  bigNasty {
+    fast {
+      ...Speed
+    }
+    slow {
+      ...Speed
+    }
+    crazySlow {
+      ...Speed
+    }
+  }
+}
+
+query BigNastyDefer {
+  bigNasty {
+    fast {
+      ...Speed
+    }
+    ... @defer {
+      slow {
+        ...Speed
+      }
+    }
+    ... @defer {
+      crazySlow {
+        ...Speed
+      }
+    }
+  }
+}

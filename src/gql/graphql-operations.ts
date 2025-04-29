@@ -15,10 +15,24 @@ export type Scalars = {
   Float: { input: number; output: number }
 }
 
+export type BigNasty = {
+  __typename?: 'BigNasty'
+  crazySlow?: Maybe<SpeedEntry>
+  fast: SpeedEntry
+  slow?: Maybe<SpeedEntry>
+}
+
 export type Query = {
   __typename?: 'Query'
   basicRootQuery: Scalars['String']['output']
+  bigNasty?: Maybe<BigNasty>
   reallySlowOne: Scalars['String']['output']
+}
+
+export type SpeedEntry = {
+  __typename?: 'SpeedEntry'
+  value: Scalars['String']['output']
+  when: Scalars['Float']['output']
 }
 
 export type GetBasicQueryVariables = Exact<{ [key: string]: never }>
@@ -33,6 +47,53 @@ export type GetBasicAndSlowQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetBasicAndSlowQuery = { __typename?: 'Query'; basicRootQuery: string; reallySlowOne: string }
 
+export type SpeedFragment = { __typename?: 'SpeedEntry'; when: number; value: string }
+
+export type BigNastyQueryVariables = Exact<{ [key: string]: never }>
+
+export type BigNastyQuery = {
+  __typename?: 'Query'
+  bigNasty?: {
+    __typename?: 'BigNasty'
+    fast: { __typename?: 'SpeedEntry'; when: number; value: string }
+    slow?: { __typename?: 'SpeedEntry'; when: number; value: string } | null
+    crazySlow?: { __typename?: 'SpeedEntry'; when: number; value: string } | null
+  } | null
+}
+
+export type BigNastyDeferQueryVariables = Exact<{ [key: string]: never }>
+
+export type BigNastyDeferQuery = {
+  __typename?: 'Query'
+  bigNasty?:
+    | ({ __typename?: 'BigNasty'; fast: { __typename?: 'SpeedEntry'; when: number; value: string } } & (
+        | { __typename?: 'BigNasty'; slow?: { __typename?: 'SpeedEntry'; when: number; value: string } | null }
+        | { __typename?: 'BigNasty'; slow?: never }
+      ) &
+        (
+          | { __typename?: 'BigNasty'; crazySlow?: { __typename?: 'SpeedEntry'; when: number; value: string } | null }
+          | { __typename?: 'BigNasty'; crazySlow?: never }
+        ))
+    | null
+}
+
+export const SpeedFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'Speed' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'SpeedEntry' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'when' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<SpeedFragment, unknown>
 export const GetBasicDocument = {
   kind: 'Document',
   definitions: [
@@ -78,3 +139,141 @@ export const GetBasicAndSlowDocument = {
     },
   ],
 } as unknown as DocumentNode<GetBasicAndSlowQuery, GetBasicAndSlowQueryVariables>
+export const BigNastyDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'BigNasty' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'bigNasty' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'fast' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Speed' } }],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'slow' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Speed' } }],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'crazySlow' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Speed' } }],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'Speed' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'SpeedEntry' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'when' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<BigNastyQuery, BigNastyQueryVariables>
+export const BigNastyDeferDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'BigNastyDefer' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'bigNasty' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'fast' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Speed' } }],
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  directives: [{ kind: 'Directive', name: { kind: 'Name', value: 'defer' } }],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'slow' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Speed' } }],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'InlineFragment',
+                  directives: [{ kind: 'Directive', name: { kind: 'Name', value: 'defer' } }],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'crazySlow' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Speed' } }],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'Speed' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'SpeedEntry' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'when' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'value' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<BigNastyDeferQuery, BigNastyDeferQueryVariables>

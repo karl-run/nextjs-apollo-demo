@@ -1,4 +1,19 @@
+directive @defer(if: Boolean = true, label: String) on FRAGMENT_SPREAD | INLINE_FRAGMENT
+
 type Query {
   basicRootQuery: String!
   reallySlowOne: String!
+
+  bigNasty: BigNasty
+}
+
+type BigNasty {
+  fast: SpeedEntry!
+  slow: SpeedEntry
+  crazySlow: SpeedEntry
+}
+
+type SpeedEntry {
+  when: Float!
+  value: String!
 }

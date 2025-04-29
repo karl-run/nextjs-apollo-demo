@@ -13,6 +13,15 @@ function Links(): ReactElement {
       <Link className="underline" href="/raw">
         Raw
       </Link>
+      <Link className="underline" href="/big-nasty/slow">
+        Big Nasty (client only)
+      </Link>
+      <Link className="underline" href="/big-nasty/slow-rsc">
+        Big Nasty (rsc)
+      </Link>
+      <Link className="underline" href="/big-nasty/defer">
+        Big Nasty (rsc defer)
+      </Link>
     </div>
   )
 }

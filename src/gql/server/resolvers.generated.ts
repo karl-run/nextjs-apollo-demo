@@ -16,10 +16,24 @@ export type Scalars = {
   Float: { input: number; output: number }
 }
 
+export type BigNasty = {
+  __typename?: 'BigNasty'
+  crazySlow?: Maybe<SpeedEntry>
+  fast: SpeedEntry
+  slow?: Maybe<SpeedEntry>
+}
+
 export type Query = {
   __typename?: 'Query'
   basicRootQuery: Scalars['String']['output']
+  bigNasty?: Maybe<BigNasty>
   reallySlowOne: Scalars['String']['output']
+}
+
+export type SpeedEntry = {
+  __typename?: 'SpeedEntry'
+  value: Scalars['String']['output']
+  when: Scalars['Float']['output']
 }
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
@@ -94,16 +108,44 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  BigNasty: ResolverTypeWrapper<BigNasty>
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>
   Query: ResolverTypeWrapper<{}>
+  SpeedEntry: ResolverTypeWrapper<SpeedEntry>
   String: ResolverTypeWrapper<Scalars['String']['output']>
 }
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  BigNasty: BigNasty
   Boolean: Scalars['Boolean']['output']
+  Float: Scalars['Float']['output']
   Query: {}
+  SpeedEntry: SpeedEntry
   String: Scalars['String']['output']
+}
+
+export type DeferDirectiveArgs = {
+  if?: Maybe<Scalars['Boolean']['input']>
+  label?: Maybe<Scalars['String']['input']>
+}
+
+export type DeferDirectiveResolver<Result, Parent, ContextType = any, Args = DeferDirectiveArgs> = DirectiveResolverFn<
+  Result,
+  Parent,
+  ContextType,
+  Args
+>
+
+export type BigNastyResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['BigNasty'] = ResolversParentTypes['BigNasty'],
+> = {
+  crazySlow?: Resolver<Maybe<ResolversTypes['SpeedEntry']>, ParentType, ContextType>
+  fast?: Resolver<ResolversTypes['SpeedEntry'], ParentType, ContextType>
+  slow?: Resolver<Maybe<ResolversTypes['SpeedEntry']>, ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export type QueryResolvers<
@@ -111,9 +153,25 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query'],
 > = {
   basicRootQuery?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  bigNasty?: Resolver<Maybe<ResolversTypes['BigNasty']>, ParentType, ContextType>
   reallySlowOne?: Resolver<ResolversTypes['String'], ParentType, ContextType>
 }
 
+export type SpeedEntryResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['SpeedEntry'] = ResolversParentTypes['SpeedEntry'],
+> = {
+  value?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  when?: Resolver<ResolversTypes['Float'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
 export type Resolvers<ContextType = any> = {
+  BigNasty?: BigNastyResolvers<ContextType>
   Query?: QueryResolvers<ContextType>
+  SpeedEntry?: SpeedEntryResolvers<ContextType>
+}
+
+export type DirectiveResolvers<ContextType = any> = {
+  defer?: DeferDirectiveResolver<any, any, ContextType>
 }
