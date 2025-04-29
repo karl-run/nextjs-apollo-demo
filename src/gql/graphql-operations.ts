@@ -18,11 +18,20 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query'
   basicRootQuery: Scalars['String']['output']
+  reallySlowOne: Scalars['String']['output']
 }
 
 export type GetBasicQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetBasicQuery = { __typename?: 'Query'; basicRootQuery: string }
+
+export type GetSlowQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetSlowQuery = { __typename?: 'Query'; reallySlowOne: string }
+
+export type GetBasicAndSlowQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetBasicAndSlowQuery = { __typename?: 'Query'; basicRootQuery: string; reallySlowOne: string }
 
 export const GetBasicDocument = {
   kind: 'Document',
@@ -38,3 +47,34 @@ export const GetBasicDocument = {
     },
   ],
 } as unknown as DocumentNode<GetBasicQuery, GetBasicQueryVariables>
+export const GetSlowDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetSlow' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'reallySlowOne' } }],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetSlowQuery, GetSlowQueryVariables>
+export const GetBasicAndSlowDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetBasicAndSlow' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'basicRootQuery' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'reallySlowOne' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetBasicAndSlowQuery, GetBasicAndSlowQueryVariables>

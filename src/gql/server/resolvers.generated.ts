@@ -19,6 +19,7 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query'
   basicRootQuery: Scalars['String']['output']
+  reallySlowOne: Scalars['String']['output']
 }
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
@@ -110,6 +111,7 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query'],
 > = {
   basicRootQuery?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  reallySlowOne?: Resolver<ResolversTypes['String'], ParentType, ContextType>
 }
 
 export type Resolvers<ContextType = any> = {

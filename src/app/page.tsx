@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <main>
-      <div>Hello world!</div>
+      <div>This is a fully static route</div>
     </main>
   )
 }

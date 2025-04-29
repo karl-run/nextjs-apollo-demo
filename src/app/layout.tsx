@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { PropsWithChildren } from 'react'
 
 import { Providers } from '@/app/providers'
+import Links from '@/components/Links'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
   return (
     <html lang="en">
       <body>
+        <Links />
         <Providers>{children}</Providers>
       </body>
     </html>
