@@ -16,7 +16,10 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 export function makeApolloClient() {
   return new ApolloClient({
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      // Uncomment this to disable default cache normalization
+      // dataIdFromObject: () => undefined,
+    }),
     link: from([
       errorLink,
       new RetryLink({

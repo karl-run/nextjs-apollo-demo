@@ -1,5 +1,5 @@
 import React, { ReactElement, Suspense } from 'react'
-import {GetBasicDocument, GetSlowDocument} from '@/gql/graphql-operations'
+import { GetSlowDocument } from '@/gql/graphql-operations'
 import { PreloadQuery } from '@/gql/rsc/ApolloClient'
 import ClientQuerier from '@/app/prerender/client-querier'
 

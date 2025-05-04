@@ -1,4 +1,7 @@
 type Query {
   basicRootQuery: String!
   reallySlowOne: String!
+
+  deepNesteds: [Deep!]
+  deepNested(id: ID!): Deep
 }

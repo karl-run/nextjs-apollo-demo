@@ -1,0 +1,19 @@
+type Deep {
+  id: ID!
+  name: String!
+  description: String
+  someChild: SomeChild
+}
+
+type SomeChild {
+  id: ID!
+  name: String!
+  description: String
+  evenDeeper: EvenDeeper
+}
+
+type EvenDeeper {
+  id: ID!
+  name: String!
+  description: String
+}

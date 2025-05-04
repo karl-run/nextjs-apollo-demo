@@ -13,6 +13,9 @@ function Links(): ReactElement {
       <Link className="underline" href="/raw">
         Raw
       </Link>
+      <Link className="underline" href="/raw">
+        Deep (30k) client side
+      </Link>
     </div>
   )
 }

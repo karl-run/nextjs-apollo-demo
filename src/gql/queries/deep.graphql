@@ -1,0 +1,17 @@
+query GetVeryDeepNested {
+  deepNesteds {
+    id
+    description
+    name
+    someChild {
+      id
+      description
+      name
+      evenDeeper {
+        id
+        description
+        name
+      }
+    }
+  }
+}
